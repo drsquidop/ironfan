@@ -112,7 +112,8 @@ class Chef
         unless config[:dry_run]
           Ironfan.step(computer.name, 'trying ssh', :white)
           # FIXME: This is EC2-specific, abstract it
-          address = computer.machine.vpc_id.nil? ? computer.machine.public_hostname : computer.machine.public_ip_address
+          # DWT if VPC, use private address
+          address = computer.machine.vpc_id.nil? ? computer.machine.public_hostname : computer.machine.private_ip_address
           nil until tcp_test_ssh(address){ sleep @initial_sleep_delay ||= 10  }
         end
         

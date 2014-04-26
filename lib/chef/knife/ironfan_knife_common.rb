@@ -151,7 +151,8 @@ module Ironfan
 
     def bootstrapper(computer)
       server   = computer.server
-      hostname = computer.dns_name
+      #DWT if vpc, use private ip
+      hostname = computer.machine.vpc_id.nil? ? computer.dns_name : computer.machine.private_ip_address
       #
       bootstrap = Chef::Knife::Bootstrap.new
       bootstrap.config.merge!(config)
